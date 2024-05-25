@@ -12,14 +12,15 @@ datasource db {
 }
 
 enum Measures {
-  milimetros
+  mililitros
   gramos
 }
 
 model Ingredient {
   id String @id @default(uuid())
   name String
-  meause Measures
+  measure Measures
+  amount Float
   price Float
 }
 

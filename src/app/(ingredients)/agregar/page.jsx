@@ -2,7 +2,9 @@ import { formSchema } from "@/schemas/FormIngredientSchema";
 
 import dynamic from "next/dynamic";
 
-const Modal = dynamic(() => import("../ModalFormIngredient"), { ssr: false });
+const Modal = dynamic(() => import("../ui/ModalFormIngredient"), {
+  ssr: false,
+});
 
 const AddIngredientPage = () => {
   return (

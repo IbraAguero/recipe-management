@@ -7,30 +7,17 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getIngredients } from "@/lib/actions/ingredients";
+import { DataTable } from "./table/data-table";
+import { columns } from "./table/columns";
 
 const IngredientsTable = async () => {
   const ingredients = await getIngredients();
 
+  console.log(ingredients);
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Ingrediente</TableHead>
-          <TableHead>Medida</TableHead>
-          <TableHead>Precio</TableHead>
-          <TableHead>Funciones</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {ingredients.map((el) => (
-          <TableRow key={el.id}>
-            <TableCell>{el.name}</TableCell>
-            <TableCell>{el.meause}</TableCell>
-            <TableCell>{el.price}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <>
+      <DataTable data={ingredients} columns={columns} />
+    </>
   );
 };
 export default IngredientsTable;

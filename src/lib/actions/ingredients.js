@@ -1,6 +1,7 @@
 "use server";
 import prisma from "../prisma";
-import { formSchema } from "@/schemas/FormIngredientSchema";
+import { formSchema } from "@/schemas/IngredientSchema";
+import { revalidatePath } from "next/cache";
 import { ZodError } from "zod";
 
 /* export async function getIngredients() {
@@ -19,15 +20,22 @@ export const getIngredients = async () => {
 
 export async function addIngredient(prevState, FormData) {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    const { name, price, meause } = formSchema.parse({
+    const { name, price, measure, amount } = formSchema.parse({
       name: FormData.get("name"),
       price: parseFloat(FormData.get("price")) || undefined,
-      meause: FormData.get("meause"),
+      measure: FormData.get("measure") || undefined,
+      amount: parseFloat(FormData.get("amount")) || undefined,
     });
 
-    return { status: "success", message: name };
+    const createIngredient = await prisma.ingredient.create({
+      data: { name, price, measure, amount },
+    });
+
+    revalidatePath("/");
+    return {
+      status: "success",
+      message: "Se agrego correctamente el ingrediente",
+    };
   } catch (error) {
     if (error instanceof ZodError) {
       return {
@@ -39,6 +47,28 @@ export async function addIngredient(prevState, FormData) {
         })),
       };
     }
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+}
+
+export async function deleteIngredient(id) {
+  try {
+    console.log(id);
+    const deleteIngredient = await prisma.ingredient.delete({
+      where: {
+        id,
+      },
+    });
+    revalidatePath("/");
+    return {
+      status: "success",
+      message: "Se elimino correctamente el ingrediente",
+    };
+  } catch (error) {
+    console.log(error);
     return {
       status: "error",
       message: error.message,

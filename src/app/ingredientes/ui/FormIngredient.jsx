@@ -29,15 +29,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Loader2 } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const FormIngredient = () => {
-  const { toast } = useToast();
   const [state, formAction] = useFormState(addIngredient, null);
   const router = useRouter();
-
-  console.log(state);
 
   const form = useForm({
     mode: "onSubmit",
@@ -46,7 +43,7 @@ const FormIngredient = () => {
       name: "",
       meause: "",
       price: "",
-      amount: "",
+      quantity: "",
     },
   });
 
@@ -67,13 +64,10 @@ const FormIngredient = () => {
       });
     }
     if (state.status === "success") {
-      toast({
-        description: state.message,
-        variant: "success",
-      });
+      toast.success(state.message);
       router.back();
     }
-  }, [state, setError, toast, router]);
+  }, [state, setError, router]);
 
   return (
     <Form {...form}>
@@ -91,7 +85,6 @@ const FormContent = ({ form }) => {
     <>
       <DialogHeader>
         <DialogTitle>Agregar ingrediente</DialogTitle>
-
         <DialogDescription>
           Ingrese los datos del ingrediente que desea agregar.
         </DialogDescription>
@@ -131,6 +124,7 @@ const FormContent = ({ form }) => {
                     <SelectContent>
                       <SelectItem value="gramos">Gramos</SelectItem>
                       <SelectItem value="mililitros">Mililitros</SelectItem>
+                      <SelectItem value="unidades">Unidades</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormControl>
@@ -142,7 +136,7 @@ const FormContent = ({ form }) => {
         <div className="col-span-2 flex flex-col space-y-2">
           <FormField
             control={form.control}
-            name="amount"
+            name="quantity"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Cantidad</FormLabel>

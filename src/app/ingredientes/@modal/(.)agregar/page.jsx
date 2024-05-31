@@ -1,17 +1,9 @@
 "use client";
 import { useRouter } from "next/navigation";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import FormIngredient from "../../ui/FormIngredient";
 
-const AddQuoteModal = () => {
+const AddIngredientModal = () => {
   const router = useRouter();
   return (
     <Dialog open={true} onOpenChange={() => router.back()}>
@@ -22,4 +14,4 @@ const AddQuoteModal = () => {
   );
 };
 
-export default AddQuoteModal;
+export default AddIngredientModal;

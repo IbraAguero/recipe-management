@@ -19,12 +19,14 @@ export const columns = [
       <DataTableColumnHeader column={column} title="Ingrediente" />
     ),
     cell: ({ row }) => {
-      return <div className="ml-2 font-medium">{row.getValue("name")}</div>;
+      return (
+        <div className="ml-2 w-36 font-medium">{row.getValue("name")}</div>
+      );
     },
     enableSorting: true,
   },
   {
-    accessorKey: "amount",
+    accessorKey: "quantity",
     header: "Cantidad",
   },
   {
@@ -36,6 +38,20 @@ export const columns = [
     header: () => <div className="text-center">Precio</div>,
     cell: ({ row }) => {
       const price = parseFloat(row.getValue("price"));
+
+      const formatted = new Intl.NumberFormat("es-AR", {
+        style: "currency",
+        currency: "ARS",
+      }).format(price);
+
+      return <div className="text-center font-medium">{formatted}</div>;
+    },
+  },
+  {
+    accessorKey: "pricePerUnit",
+    header: () => <div className="text-center">Precio/unidad</div>,
+    cell: ({ row }) => {
+      const price = parseFloat(row.getValue("pricePerUnit"));
 
       const formatted = new Intl.NumberFormat("es-AR", {
         style: "currency",

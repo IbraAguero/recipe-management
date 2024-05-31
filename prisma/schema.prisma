@@ -14,13 +14,54 @@ datasource db {
 enum Measures {
   mililitros
   gramos
+  unidades
+  taza
+  media_taza
+  cucharada
+  cucharadita
 }
 
 model Ingredient {
   id String @id @default(uuid())
   name String
   measure Measures
-  amount Float
+  quantity Float
   price Float
+  pricePerUnit Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationship fields
+  recipes RecipeIngredient[]
 }
+
+model Recipe {
+  id String @id @default(uuid())
+  title String
+  steps String[]
+  units Int
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationship fields
+  ingredients RecipeIngredient[]
+}
+
+model RecipeIngredient {
+  id           String     @id @default(uuid())
+  recipeId     String
+  ingredientId String
+  quantity     Float
+  measure Measures
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relationship fields
+  recipe       Recipe     @relation(fields: [recipeId], references: [id])
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+}
+
 

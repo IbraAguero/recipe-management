@@ -4,11 +4,16 @@ import { formSchema } from "@/schemas/IngredientSchema";
 import { revalidatePath } from "next/cache";
 import { ZodError } from "zod";
 
-/* export async function getIngredients() {
-  const ingredients = await prisma.ingredient.findMany();
-  console.log(ingredients);
-} */
-
+export const getIngredient = async (id) => {
+  try {
+    const ingredient = await prisma.ingredient.findUnique({
+      where: { id },
+    });
+    return ingredient;
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const getIngredients = async () => {
   try {
     const ingredients = await prisma.ingredient.findMany();
@@ -20,18 +25,20 @@ export const getIngredients = async () => {
 
 export async function addIngredient(prevState, FormData) {
   try {
-    const { name, price, measure, amount } = formSchema.parse({
+    const { name, price, measure, quantity } = formSchema.parse({
       name: FormData.get("name"),
       price: parseFloat(FormData.get("price")) || undefined,
       measure: FormData.get("measure") || undefined,
-      amount: parseFloat(FormData.get("amount")) || undefined,
+      quantity: parseFloat(FormData.get("quantity")) || undefined,
     });
+
+    const pricePerUnit = price / quantity;
 
     const createIngredient = await prisma.ingredient.create({
-      data: { name, price, measure, amount },
+      data: { name, price, measure, quantity, pricePerUnit },
     });
 
-    revalidatePath("/");
+    revalidatePath("/ingredientes");
     return {
       status: "success",
       message: "Se agrego correctamente el ingrediente",
@@ -56,13 +63,12 @@ export async function addIngredient(prevState, FormData) {
 
 export async function deleteIngredient(id) {
   try {
-    console.log(id);
     const deleteIngredient = await prisma.ingredient.delete({
       where: {
         id,
       },
     });
-    revalidatePath("/");
+    revalidatePath("/ingredientes");
     return {
       status: "success",
       message: "Se elimino correctamente el ingrediente",

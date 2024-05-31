@@ -13,7 +13,6 @@ import { columns } from "./table/columns";
 const IngredientsTable = async () => {
   const ingredients = await getIngredients();
 
-  console.log(ingredients);
   return (
     <>
       <DataTable data={ingredients} columns={columns} />

@@ -95,3 +95,14 @@ export async function getRecipes() {
     console.log(error.message);
   }
 }
+
+export async function deleteRecipe(id) {
+  try {
+    const deleteRecipe = await prisma.recipe.delete({ where: { id } });
+
+    revalidatePath("/");
+    return { status: "success", message: "La receta se elimino con exito" };
+  } catch (error) {
+    console.log(error);
+  }
+}

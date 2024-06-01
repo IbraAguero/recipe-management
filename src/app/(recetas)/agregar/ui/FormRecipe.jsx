@@ -26,8 +26,8 @@ import { addRecipe } from "@/lib/actions/recipes";
 import { useFormState, useFormStatus } from "react-dom";
 import { formSchema } from "@/schemas/RecipeSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const measures = {
   mililitros: "Mililitros",
@@ -42,8 +42,6 @@ const measures = {
 // FACTORIZAR MEDIDAS
 
 const FormRecipe = ({ ingredients }) => {
-  const { toast } = useToast();
-
   const router = useRouter();
 
   const [state, formAction] = useFormState(addRecipe, null);
@@ -160,18 +158,13 @@ const FormRecipe = ({ ingredients }) => {
       });
       console.log(errors);
       if (errors?.ingredients) {
-        toast({
-          title: "Faltan los ingredientes",
+        toast.error("Faltan los ingredientes", {
           description: errors.ingredients.message,
-          variant: "destructive",
         });
       }
     }
     if (state.status === "success") {
-      toast({
-        description: state.message,
-        variant: "success",
-      });
+      toast.success(state.message);
       router.push("/");
       /* toast({
         title: "Enviaste los siguientes valores:",
@@ -245,6 +238,7 @@ const FormRecipe = ({ ingredients }) => {
             name="ingredients"
             value={JSON.stringify(ingredientsForm)}
             hidden
+            readOnly
           />
 
           <div className="grid gap-4">
@@ -354,7 +348,7 @@ const FormRecipe = ({ ingredients }) => {
           </div>
         </div>
         <div className="mb-4 grid gap-4">
-          <input hidden value={steps} name="steps" />
+          <input hidden value={steps} name="steps" readOnly />
           <FormLabel>Pasos de la Receta</FormLabel>
           <Input
             placeholder="Ingresa un paso de la receta"

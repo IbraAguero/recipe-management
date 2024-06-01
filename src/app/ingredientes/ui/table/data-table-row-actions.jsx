@@ -21,7 +21,6 @@ export const DataTableRowActions = ({ row }) => {
 
   const handleDelete = async () => {
     const result = await deleteIngredient(ingredient.id);
-    console.log(result);
     if (result.status === "success") {
       toast.success(result.message);
     }

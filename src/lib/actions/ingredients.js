@@ -60,6 +60,45 @@ export async function addIngredient(prevState, FormData) {
     };
   }
 }
+export async function editIngredient(prevState, FormData) {
+  try {
+    const { name, price, measure, quantity } = formSchema.parse({
+      name: FormData.get("name"),
+      price: parseFloat(FormData.get("price")) || undefined,
+      measure: FormData.get("measure") || undefined,
+      quantity: parseFloat(FormData.get("quantity")) || undefined,
+    });
+    const id = FormData.get("id")?.toString();
+
+    const pricePerUnit = price / quantity;
+
+    const editIngredient = await prisma.ingredient.update({
+      where: { id },
+      data: { name, price, measure, quantity, pricePerUnit },
+    });
+
+    revalidatePath("/ingredientes");
+    return {
+      status: "success",
+      message: "Se edito correctamente el ingrediente",
+    };
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return {
+        status: "error",
+        message: "Invalid form data",
+        errors: error.issues.map((issue) => ({
+          path: issue.path.join("."),
+          message: issue.message,
+        })),
+      };
+    }
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+}
 
 export async function deleteIngredient(id) {
   try {

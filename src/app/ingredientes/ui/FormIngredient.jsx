@@ -1,4 +1,3 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import {
   DialogDescription,
@@ -14,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { addIngredient } from "@/lib/actions/ingredients";
+import { addIngredient, editIngredient } from "@/lib/actions/ingredients";
 import { useFormState, useFormStatus } from "react-dom";
 import { useForm } from "react-hook-form";
 import { formSchema } from "@/schemas/IngredientSchema";
@@ -32,25 +31,23 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-const FormIngredient = () => {
-  const [state, formAction] = useFormState(addIngredient, null);
+const FormIngredient = ({ ingredient }) => {
+  const functionAction = ingredient ? editIngredient : addIngredient;
+  const [state, formAction] = useFormState(functionAction, null);
   const router = useRouter();
 
   const form = useForm({
     mode: "onSubmit",
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      meause: "",
-      price: "",
-      quantity: "",
+      name: ingredient?.name || "",
+      measure: ingredient?.measure || "",
+      price: ingredient?.price || "",
+      quantity: ingredient?.quantity || "",
     },
   });
 
-  const {
-    formState: { isValid, errors },
-    setError,
-  } = form;
+  const { setError } = form;
 
   useEffect(() => {
     if (!state) {
@@ -72,21 +69,27 @@ const FormIngredient = () => {
   return (
     <Form {...form}>
       <form action={formAction}>
-        <FormContent form={form} />
+        <input hidden name="id" value={ingredient?.id} />
+        <FormContent form={form} isEditing={ingredient ? true : false} />
       </form>
     </Form>
   );
 };
 export default FormIngredient;
-const FormContent = ({ form }) => {
+
+const FormContent = ({ form, isEditing }) => {
   const { pending } = useFormStatus();
 
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Agregar ingrediente</DialogTitle>
+        <DialogTitle>
+          {isEditing ? "Editar Ingrediente" : "Agregar Ingrediente"}
+        </DialogTitle>
         <DialogDescription>
-          Ingrese los datos del ingrediente que desea agregar.
+          {isEditing
+            ? "Ingrese los datos del ingrediente que desea modificar."
+            : " Ingrese los datos del ingrediente que desea agregar."}
         </DialogDescription>
       </DialogHeader>
       <div className="grid w-full grid-cols-4 items-center gap-4 py-4">
@@ -117,7 +120,11 @@ const FormContent = ({ form }) => {
               <FormItem>
                 <FormLabel>Medida</FormLabel>
                 <FormControl>
-                  <Select name="measure">
+                  <Select
+                    {...field}
+                    value={field.value || ""}
+                    onValueChange={field.onChange}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Eliga una medida" />
                     </SelectTrigger>
@@ -142,9 +149,10 @@ const FormContent = ({ form }) => {
                 <FormLabel>Cantidad</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Ingrese la cantidad"
                     {...field}
-                    autoComplete="off"
+                    placeholder="Ingrese la cantidad"
+                    type="number"
+                    min="0"
                   />
                 </FormControl>
                 <FormMessage />
@@ -165,6 +173,7 @@ const FormContent = ({ form }) => {
                     {...field}
                     placeholder="Ingrese un precio"
                     type="number"
+                    min="0"
                     step="0.01"
                   />
                 </FormControl>

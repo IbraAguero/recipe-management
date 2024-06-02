@@ -1,5 +1,5 @@
 import { getIngredients } from "@/lib/actions/ingredients";
-import FormRecipe from "./ui/FormRecipe";
+import FormRecipe from "../ui/FormRecipe";
 
 const RecipeAddPage = async () => {
   const ingredients = await getIngredients();

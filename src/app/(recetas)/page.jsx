@@ -1,6 +1,6 @@
 import { getRecipes } from "@/lib/actions/recipes";
-import TitleActionRecipe from "./agregar/ui/TitleActionRecipe";
-import AccordionContentRecipe from "./agregar/ui/accordion-content-recipe";
+import TitleActionRecipe from "./ui/TitleActionRecipe";
+import AccordionContentRecipe from "./ui/accordion-content-recipe";
 
 const RecipesPage = async () => {
   const recipes = await getRecipes();

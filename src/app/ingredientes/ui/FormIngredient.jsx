@@ -70,7 +70,109 @@ const FormIngredient = ({ ingredient }) => {
     <Form {...form}>
       <form action={formAction}>
         <input hidden name="id" value={ingredient?.id} />
-        <FormContent form={form} isEditing={ingredient ? true : false} />
+        <DialogHeader>
+          <DialogTitle>
+            {ingredient ? "Editar Ingrediente" : "Agregar Ingrediente"}
+          </DialogTitle>
+          <DialogDescription>
+            {ingredient
+              ? "Ingrese los datos del ingrediente que desea modificar."
+              : " Ingrese los datos del ingrediente que desea agregar."}
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid w-full grid-cols-4 items-center gap-4 py-4">
+          <div className="col-span-4 flex flex-col space-y-2">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nombre</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Ingrese un ingrediente"
+                      {...field}
+                      autoComplete="off"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="col-span-2 flex flex-col space-y-2">
+            <FormField
+              control={form.control}
+              name="measure"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Medida</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Eliga una medida" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="gramos">Gramos</SelectItem>
+                        <SelectItem value="mililitros">Mililitros</SelectItem>
+                        <SelectItem value="unidades">Unidades</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="col-span-2 flex flex-col space-y-2">
+            <FormField
+              control={form.control}
+              name="quantity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Cantidad</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="Ingrese la cantidad"
+                      type="number"
+                      min="0"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="col-span-4 flex flex-col space-y-2">
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Precio</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="Ingrese un precio"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+        <DialogFooter>
+          <ButtonSubmit ingredient={ingredient} />
+        </DialogFooter>
       </form>
     </Form>
   );
@@ -78,119 +180,11 @@ const FormIngredient = ({ ingredient }) => {
 export default FormIngredient;
 
 const FormContent = ({ form, isEditing }) => {
-  const { pending } = useFormStatus();
-
-  return (
-    <>
-      <DialogHeader>
-        <DialogTitle>
-          {isEditing ? "Editar Ingrediente" : "Agregar Ingrediente"}
-        </DialogTitle>
-        <DialogDescription>
-          {isEditing
-            ? "Ingrese los datos del ingrediente que desea modificar."
-            : " Ingrese los datos del ingrediente que desea agregar."}
-        </DialogDescription>
-      </DialogHeader>
-      <div className="grid w-full grid-cols-4 items-center gap-4 py-4">
-        <div className="col-span-4 flex flex-col space-y-2">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nombre</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Ingrese un ingrediente"
-                    {...field}
-                    autoComplete="off"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="col-span-2 flex flex-col space-y-2">
-          <FormField
-            control={form.control}
-            name="measure"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Medida</FormLabel>
-                <FormControl>
-                  <Select
-                    {...field}
-                    value={field.value || ""}
-                    onValueChange={field.onChange}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Eliga una medida" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="gramos">Gramos</SelectItem>
-                      <SelectItem value="mililitros">Mililitros</SelectItem>
-                      <SelectItem value="unidades">Unidades</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="col-span-2 flex flex-col space-y-2">
-          <FormField
-            control={form.control}
-            name="quantity"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Cantidad</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Ingrese la cantidad"
-                    type="number"
-                    min="0"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <div className="col-span-4 flex flex-col space-y-2">
-          <FormField
-            control={form.control}
-            name="price"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Precio</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Ingrese un precio"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-      </div>
-      <DialogFooter>
-        <ButtonSubmit pending={pending} />
-      </DialogFooter>
-    </>
-  );
+  return <></>;
 };
 
-function ButtonSubmit({ pending }) {
+function ButtonSubmit({ ingredient }) {
+  const { pending } = useFormStatus();
   return (
     <Button type="submit" disabled={pending}>
       {pending ? (
@@ -198,6 +192,8 @@ function ButtonSubmit({ pending }) {
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           Enviando
         </>
+      ) : ingredient ? (
+        "Editar"
       ) : (
         "Agregar"
       )}

@@ -21,8 +21,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useForm } from "react-hook-form";
-import { Trash2 } from "lucide-react";
-import { addRecipe } from "@/lib/actions/recipes";
+import { Loader2, Trash2 } from "lucide-react";
+import { addRecipe, editRecipe } from "@/lib/actions/recipes";
 import { useFormState, useFormStatus } from "react-dom";
 import { formSchema } from "@/schemas/RecipeSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -41,23 +41,26 @@ const measures = {
 
 // FACTORIZAR MEDIDAS
 
-const FormRecipe = ({ ingredients }) => {
+const FormRecipe = ({ ingredients, recipe }) => {
   const router = useRouter();
+  const functionAction = recipe ? editRecipe : addRecipe;
 
-  const [state, formAction] = useFormState(addRecipe, null);
+  const [state, formAction] = useFormState(functionAction, null);
 
-  const [steps, setSteps] = useState([]);
+  const [steps, setSteps] = useState(recipe?.steps || []);
   const [currentStep, setCurrentStep] = useState("");
-  const [ingredientsForm, setIngredientsForm] = useState([]);
+  const [ingredientsForm, setIngredientsForm] = useState(
+    recipe?.ingredients || [],
+  );
   const [availableMeasures, setAvailableMeasures] = useState([]);
 
   const form = useForm({
     mode: "onSubmit",
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
+      title: recipe?.title || "",
       steps: "",
-      units: "",
+      units: recipe?.units || "",
       ingredients: "",
       ingredientsSelect: "",
       measures: "",
@@ -122,7 +125,7 @@ const FormRecipe = ({ ingredients }) => {
       );
       setIngredientsForm([
         ...ingredientsForm,
-        { ingredient, quantity, measure },
+        { ...ingredient, quantity, measure },
       ]);
       setValue("ingredientsSelect", "");
       resetField("quantity");
@@ -190,6 +193,7 @@ const FormRecipe = ({ ingredients }) => {
   return (
     <Form {...form}>
       <form className="mx-auto mt-4 grid max-w-2xl" action={formAction}>
+        <input hidden name="id" value={recipe?.id} />
         <div className="mb-2 grid grid-cols-[1fr_200px] items-center gap-4">
           <FormField
             control={form.control}
@@ -329,8 +333,7 @@ const FormRecipe = ({ ingredients }) => {
                   key={index}
                 >
                   <span>
-                    {index + 1}. {el.ingredient.name} | {el.quantity}{" "}
-                    {/* Factorizar */}
+                    {index + 1}. {el.name} | {el.quantity} {/* Factorizar */}
                     {el.measure !== "media_taza" ? el.measure : "Taza 1/2"}
                   </span>
                   <Button
@@ -386,12 +389,27 @@ const FormRecipe = ({ ingredients }) => {
             ))}
           </ul>
         </div>
-        <Button type="submit" className="font-bold">
-          Guardar Receta
-        </Button>
+        <ButtonSubmit />
       </form>
     </Form>
   );
 };
 
 export default FormRecipe;
+
+const ButtonSubmit = () => {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button type="submit" className="font-bold">
+      {pending ? (
+        <>
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          Guardando Receta
+        </>
+      ) : (
+        "Guardar Receta"
+      )}
+    </Button>
+  );
+};

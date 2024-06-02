@@ -1,11 +1,9 @@
 import { z } from "zod";
 
 const ingredientSchema = z.object({
-  ingredient: z.object({
-    id: z.string(),
-    name: z.string(),
-  }),
-  quantity: z.string(),
+  id: z.string(),
+  name: z.string(),
+  quantity: z.number(),
   measure: z.enum([
     "gramos",
     "mililitros",

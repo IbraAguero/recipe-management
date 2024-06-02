@@ -31,6 +31,7 @@ import { getPrice } from "@/lib/utils";
 import { Settings } from "lucide-react";
 import DeleteRecipeAlertDialog from "./delete-recipe-alert-dialog";
 import { useState } from "react";
+import Link from "next/link";
 
 const AcordionItemRecipe = ({ recipe, total }) => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -42,7 +43,7 @@ const AcordionItemRecipe = ({ recipe, total }) => {
   return (
     <>
       <AccordionItem
-        key={recipe.title}
+        key={recipe.id}
         value={recipe.title.toLowerCase().replace(" ", "-")}
       >
         <AccordionTrigger className="flex items-center rounded-lg border-none p-4">
@@ -59,9 +60,11 @@ const AcordionItemRecipe = ({ recipe, total }) => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={handleEdit}>
-                    Editar
-                  </DropdownMenuItem>
+                  <Link href={`editar/${recipe.id}`}>
+                    <DropdownMenuItem onClick={handleEdit}>
+                      Editar
+                    </DropdownMenuItem>
+                  </Link>
                   <DropdownMenuItem onClick={handleDelete}>
                     Eliminar
                   </DropdownMenuItem>

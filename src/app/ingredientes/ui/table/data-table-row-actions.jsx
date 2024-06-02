@@ -5,25 +5,22 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { deleteIngredient } from "@/lib/actions/ingredients";
 import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { useState } from "react";
+import DeleteIngredientAlertDialog from "./delete-ingredient-alert-dialog";
 
 export const DataTableRowActions = ({ row }) => {
+  const [openModal, setOpenModal] = useState(false);
   const router = useRouter();
   const ingredient = row.original;
 
   const handleEdit = async () => {
-    console.log("editar " + ingredient.id);
     router.push(`ingredientes/editar/${ingredient.id}`);
   };
 
   const handleDelete = async () => {
-    const result = await deleteIngredient(ingredient.id);
-    if (result.status === "success") {
-      toast.success(result.message);
-    }
+    setOpenModal(true);
   };
 
   return (
@@ -43,6 +40,11 @@ export const DataTableRowActions = ({ row }) => {
           <DropdownMenuItem onClick={handleDelete}>Eliminar</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <DeleteIngredientAlertDialog
+        open={openModal}
+        ingredient={ingredient}
+        closeDialog={() => setOpenModal(false)}
+      />
     </div>
   );
 };

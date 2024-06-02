@@ -1,5 +1,5 @@
 import { getRecipes } from "@/lib/actions/recipes";
-import TitleActionRecipe from "./ui/TitleActionRecipe";
+import TitleActionRecipe from "./ui/title-action-recipe";
 import AccordionContentRecipe from "./ui/accordion-content-recipe";
 
 const RecipesPage = async () => {

@@ -9,17 +9,27 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { deleteRecipe } from "@/lib/actions/recipes";
+import { deleteIngredient } from "@/lib/actions/ingredients";
 import { toast } from "sonner";
 
-const DeleteRecipeAlertDialog = ({ recipe, open, closeDialog }) => {
+const formatErrorMessage = (error) => {
+  if (error?.message?.includes("Foreign key constraint failed")) {
+    return "No se puede eliminar el ingrediente porque está asociado a una o más recetas.";
+  }
+  return "Ocurrió un error al intentar eliminar el ingrediente. Por favor, inténtalo de nuevo.";
+};
+
+const DeleteIngredientAlertDialog = ({ ingredient, open, closeDialog }) => {
   const handleDelete = async () => {
-    const result = await deleteRecipe(recipe.id);
+    const result = await deleteIngredient(ingredient.id);
+    console.log(result);
     if (result.status === "success") {
       toast.success(result.message);
     }
     if (result.status === "error") {
-      toast.error(result.message);
+      const formatedMessage = formatErrorMessage(result);
+      console.log(formatErrorMessage);
+      toast.error(formatedMessage);
     }
   };
 
@@ -28,11 +38,11 @@ const DeleteRecipeAlertDialog = ({ recipe, open, closeDialog }) => {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Estas seguro que deseas eliminar la receta?
+            Estas seguro que deseas eliminar el ingrediente?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Esta acción no se puede deshacer. Esto eliminará permanentemente la
-            receta de {recipe.title}.
+            Esta acción no se puede deshacer. Esto eliminará permanentemente el
+            ingrediente <span className="font-bold">{ingredient.name}.</span>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -45,4 +55,4 @@ const DeleteRecipeAlertDialog = ({ recipe, open, closeDialog }) => {
     </AlertDialog>
   );
 };
-export default DeleteRecipeAlertDialog;
+export default DeleteIngredientAlertDialog;

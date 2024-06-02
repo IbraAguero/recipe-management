@@ -1,5 +1,5 @@
 import { getIngredients } from "@/lib/actions/ingredients";
-import FormRecipe from "../../ui/FormRecipe";
+import FormRecipe from "../../ui/form-recipe";
 import { getRecipe } from "@/lib/actions/recipes";
 
 const EditPage = async ({ params }) => {

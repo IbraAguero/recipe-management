@@ -109,6 +109,7 @@ const FormIngredient = ({ ingredient }) => {
                   <FormLabel>Medida</FormLabel>
                   <FormControl>
                     <Select
+                      name="measure"
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >

@@ -1,15 +1,15 @@
 import dynamic from "next/dynamic";
 
-const Modal = dynamic(() => import("../ui/ModalFormIngredient"), {
+const ModalIngredient = dynamic(() => import("../ui/ModalFormIngredient"), {
   ssr: false,
 });
 
-const EditIngredientPage = () => {
+const AddIngredientPage = () => {
   return (
     <>
-      <Modal />
+      <ModalIngredient />
     </>
   );
 };
 
-export default EditIngredientPage;
+export default AddIngredientPage;

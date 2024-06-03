@@ -16,7 +16,6 @@ const conversions = {
 };
 
 export function getPrice(ingredient) {
-  console.log(ingredient);
   const { measure, quantity, pricePerUnit } = ingredient;
   const quantityInGrams = quantity * conversions[measure];
   const price = (quantityInGrams / conversions["gramos"]) * pricePerUnit;

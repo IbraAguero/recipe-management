@@ -1,6 +1,8 @@
 import { buttonVariants } from "@/components/ui/button";
 import IngredientsTable from "./ui/IngredientsTable";
 import Link from "next/link";
+import SkeletonTable from "./ui/table/skeleton-table";
+import { Suspense } from "react";
 
 export default async function HomePage() {
   return (
@@ -12,7 +14,9 @@ export default async function HomePage() {
             Agregar
           </Link>
         </div>
-        <IngredientsTable />
+        <Suspense fallback={<SkeletonTable />}>
+          <IngredientsTable />
+        </Suspense>
       </section>
     </>
   );

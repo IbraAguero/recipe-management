@@ -7,7 +7,7 @@ const IngredientsTable = async () => {
 
   return (
     <>
-      <DataTable data={ingredients} columns={columns} />
+      <DataTable data={ingredients || []} columns={columns} />
     </>
   );
 };

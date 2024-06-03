@@ -3,6 +3,7 @@ import FormRecipe from "../ui/form-recipe";
 
 const RecipeAddPage = async () => {
   const ingredients = await getIngredients();
+  console.log(ingredients);
 
   return (
     <section className="flex flex-col">

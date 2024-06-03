@@ -22,7 +22,7 @@ export function DataTableColumnHeader({ column, title, className }) {
   }
 
   return (
-    <div className={cn("flex max-w-52 items-center space-x-2", className)}>
+    <div className={cn("flex max-w-32 items-center space-x-2", className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 data-[state=open]:bg-accent">

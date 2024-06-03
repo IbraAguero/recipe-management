@@ -1,15 +1,6 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
+
 import { DataTableColumnHeader } from "./data-table-column-header";
-import { deleteIngredient } from "@/lib/actions/ingredients";
-import { useToast } from "@/components/ui/use-toast";
 import { DataTableRowActions } from "./data-table-row-actions";
 
 export const columns = [
@@ -20,18 +11,40 @@ export const columns = [
     ),
     cell: ({ row }) => {
       return (
-        <div className="ml-2 w-36 font-medium">{row.getValue("name")}</div>
+        <div className="ml-2 w-32 font-medium">{row.getValue("name")}</div>
       );
     },
     enableSorting: true,
   },
   {
     accessorKey: "quantity",
-    header: "Cantidad",
+    header: () => <div className="text-center">Cantidad</div>,
+    cell: ({ row }) => {
+      const quantity = parseInt(row.getValue("quantity"));
+      return <div className="text-center">{quantity}</div>;
+    },
   },
   {
     accessorKey: "measure",
-    header: "Medida",
+    header: () => <div className="text-center">Medida</div>,
+    cell: ({ row }) => {
+      const measure = row.getValue("measure");
+      return <div className="text-center">{measure}</div>;
+    },
+  },
+  {
+    accessorKey: "pricePerUnit",
+    header: () => <div className="text-center">Precio/Unidad</div>,
+    cell: ({ row }) => {
+      const price = parseFloat(row.getValue("pricePerUnit"));
+
+      const formatted = new Intl.NumberFormat("es-AR", {
+        style: "currency",
+        currency: "ARS",
+      }).format(price);
+
+      return <div className="text-center font-medium">{formatted}</div>;
+    },
   },
   {
     accessorKey: "price",
@@ -47,20 +60,7 @@ export const columns = [
       return <div className="text-center font-medium">{formatted}</div>;
     },
   },
-  {
-    accessorKey: "pricePerUnit",
-    header: () => <div className="text-center">Precio/unidad</div>,
-    cell: ({ row }) => {
-      const price = parseFloat(row.getValue("pricePerUnit"));
 
-      const formatted = new Intl.NumberFormat("es-AR", {
-        style: "currency",
-        currency: "ARS",
-      }).format(price);
-
-      return <div className="text-center font-medium">{formatted}</div>;
-    },
-  },
   {
     id: "actions",
     enableHiding: false,

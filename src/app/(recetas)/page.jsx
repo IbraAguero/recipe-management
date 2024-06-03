@@ -6,7 +6,7 @@ const RecipesPage = async () => {
   const recipes = await getRecipes();
   console.log(recipes);
   return (
-    <section className="container mt-12 flex flex-col px-24">
+    <section className="mt-12 px-2 sm:px-24">
       <TitleActionRecipe />
       {recipes.length > 0 ? (
         <AccordionContentRecipe recipes={recipes} />

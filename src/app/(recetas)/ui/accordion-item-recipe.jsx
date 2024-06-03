@@ -32,6 +32,7 @@ import { Settings } from "lucide-react";
 import DeleteRecipeAlertDialog from "./delete-recipe-alert-dialog";
 import { useState } from "react";
 import Link from "next/link";
+import clsx from "clsx";
 
 const AcordionItemRecipe = ({ recipe, total }) => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -50,13 +51,13 @@ const AcordionItemRecipe = ({ recipe, total }) => {
           <h2 className="text-lg font-medium">{recipe.title}</h2>
         </AccordionTrigger>
         <AccordionContent>
-          <div className="rounded-xl border border-zinc-700 bg-zinc-800 px-10 py-6 shadow-sm">
+          <div className="sm rounded-xl border border-zinc-700 bg-zinc-800 p-6 shadow-sm sm:px-10">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-lg font-medium">Ingredientes</h3>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button size="icon" variant="ghost">
-                    <Settings height={30} className="hover:text-gray-200" />
+                    <Settings height={25} className="hover:text-gray-200" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -74,7 +75,7 @@ const AcordionItemRecipe = ({ recipe, total }) => {
             <Table className="rounded-lg bg-zinc-900 ">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="pl-4 text-left">Ingrediente</TableHead>
+                  <TableHead className="pl-3 text-left">Ingrediente</TableHead>
                   <TableHead className="text-center">Cantidad</TableHead>
                   <TableHead className="text-center">Medida</TableHead>
                   <TableHead className="text-center">Precio</TableHead>
@@ -83,7 +84,7 @@ const AcordionItemRecipe = ({ recipe, total }) => {
               <TableBody>
                 {recipe.ingredients.map((ingredient) => (
                   <TableRow key={ingredient.id} className="text-center">
-                    <TableCell className="pl-5 text-left">
+                    <TableCell className="pl-3 text-left">
                       {ingredient.name}
                     </TableCell>
                     <TableCell>{ingredient.quantity}</TableCell>
@@ -93,9 +94,14 @@ const AcordionItemRecipe = ({ recipe, total }) => {
                 ))}
               </TableBody>
             </Table>
-            <div className="mx-4 mt-4 flex items-center justify-between gap-3">
+            <div
+              className={clsx(
+                "mt-4 flex items-center justify-between gap-3",
+                recipe.units === 1 ? "flex flex-row" : "flex-col md:flex-row",
+              )}
+            >
               <div className="text-md flex gap-2 font-medium">
-                <div className=" rounded-sm bg-zinc-900 p-2">
+                <div className="rounded-sm bg-zinc-900 p-2">
                   Costo Total:
                   <span> ${total}</span>
                 </div>
@@ -106,7 +112,6 @@ const AcordionItemRecipe = ({ recipe, total }) => {
                   </div>
                 )}
               </div>
-
               <Select defaultValue="last">
                 <SelectTrigger className="w-[150px] bg-zinc-900">
                   <SelectValue />

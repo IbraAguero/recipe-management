@@ -9,7 +9,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -169,16 +168,6 @@ const FormRecipe = ({ ingredients, recipe }) => {
     if (state.status === "success") {
       toast.success(state.message);
       router.push("/");
-      /* toast({
-        title: "Enviaste los siguientes valores:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white">
-              {JSON.stringify(state.message, null, 2)}
-            </code>
-          </pre>
-        ),
-      }); */
     }
   }, [state]);
 
@@ -192,9 +181,9 @@ const FormRecipe = ({ ingredients, recipe }) => {
 
   return (
     <Form {...form}>
-      <form className="mx-auto mt-4 grid max-w-2xl" action={formAction}>
+      <form className="mx-auto mt-5 grid max-w-2xl gap-2" action={formAction}>
         <input hidden name="id" value={recipe?.id} />
-        <div className="mb-2 grid grid-cols-[1fr_200px] items-center gap-4">
+        <div className="grid items-center sm:grid-cols-[1fr_200px] sm:gap-4">
           <FormField
             control={form.control}
             name="title"
@@ -206,7 +195,7 @@ const FormRecipe = ({ ingredients, recipe }) => {
                     placeholder="Ingresa el título de la receta"
                     {...field}
                     autoComplete="off"
-                    className="border-zinc-800 bg-zinc-900"
+                    className="w-full border-zinc-800 bg-zinc-900"
                   />
                 </FormControl>
                 <div className="min-h-[20px]">
@@ -226,7 +215,7 @@ const FormRecipe = ({ ingredients, recipe }) => {
                     type="number"
                     min="0"
                     placeholder="Número de unidades"
-                    className="border-zinc-800 bg-zinc-900"
+                    className="w-full border-zinc-800 bg-zinc-900"
                     {...field}
                   />
                 </FormControl>
@@ -237,17 +226,16 @@ const FormRecipe = ({ ingredients, recipe }) => {
             )}
           />
         </div>
-        <div className="mb-4 grid gap-2">
+        <div className="mb-4 grid gap-4">
           <input
             name="ingredients"
             value={JSON.stringify(ingredientsForm)}
             hidden
             readOnly
           />
-
           <div className="grid gap-4">
             <FormLabel>Ingredientes de la Receta</FormLabel>
-            <div className="grid grid-cols-[1fr_200px_100px] items-center gap-4">
+            <div className="grid items-center gap-4 sm:grid-cols-3">
               <FormField
                 control={form.control}
                 name="ingredientsSelect"
@@ -260,7 +248,7 @@ const FormRecipe = ({ ingredients, recipe }) => {
                         defaultValue={field.value}
                         value={field.value}
                       >
-                        <SelectTrigger className="bg-zinc-900">
+                        <SelectTrigger className="w-full bg-zinc-900">
                           <SelectValue placeholder="Selecciona un ingrediente" />
                         </SelectTrigger>
                         <SelectContent>
@@ -275,7 +263,6 @@ const FormRecipe = ({ ingredients, recipe }) => {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="measure"
@@ -287,7 +274,7 @@ const FormRecipe = ({ ingredients, recipe }) => {
                     defaultValue={field.value}
                     value={field.value}
                   >
-                    <SelectTrigger className="bg-zinc-900">
+                    <SelectTrigger className="w-full bg-zinc-900">
                       <SelectValue placeholder="Selecciona una medida" />
                     </SelectTrigger>
                     <SelectContent>
@@ -312,7 +299,7 @@ const FormRecipe = ({ ingredients, recipe }) => {
                     min="0"
                     disabled={!measure}
                     {...field}
-                    className="rounded-md border-zinc-800 bg-zinc-900"
+                    className="w-full border-zinc-800 bg-zinc-900"
                     placeholder="Cantidad"
                   />
                 )}
@@ -333,7 +320,7 @@ const FormRecipe = ({ ingredients, recipe }) => {
                   key={index}
                 >
                   <span>
-                    {index + 1}. {el.name} | {el.quantity} {/* Factorizar */}
+                    {index + 1}. {el.name} | {el.quantity}{" "}
                     {el.measure !== "media_taza" ? el.measure : "Taza 1/2"}
                   </span>
                   <Button
@@ -358,7 +345,7 @@ const FormRecipe = ({ ingredients, recipe }) => {
             value={currentStep}
             onChange={(e) => setCurrentStep(e.target.value)}
             autoComplete="off"
-            className="border-zinc-800 bg-zinc-900"
+            className="w-full border-zinc-800 bg-zinc-900"
           />
           <Button
             onClick={addStep}
@@ -401,7 +388,7 @@ const ButtonSubmit = () => {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" className="font-bold">
+    <Button type="submit" className="w-full font-bold">
       {pending ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />

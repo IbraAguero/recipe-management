@@ -5,8 +5,8 @@ import AcordionItemRecipe from "./accordion-item-recipe";
 
 const AccordionContentRecipe = ({ recipes }) => {
   return (
-    <div className="mt-8 grid gap-6">
-      <Accordion collapsible type="single">
+    <div className="mt-6">
+      <Accordion collapsible type="multiple">
         {recipes?.map((recipe) => {
           const total = recipe.ingredients.reduce(
             (acc, ingredient) => acc + Number(getPrice(ingredient)),

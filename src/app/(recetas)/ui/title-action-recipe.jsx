@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const TitleActionRecipe = () => {
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-bold">Mis recetas</h1>
         <Link href="/agregar" className={buttonVariants()}>

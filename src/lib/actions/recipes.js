@@ -88,6 +88,7 @@ export async function editRecipe(prevState, FormData) {
     const ingredients = JSON.parse(ingredientsString).map((ingredient) => ({
       ...ingredient,
       quantity: Number(ingredient.quantity),
+      id: ingredient.ingredientId ? ingredient.ingredientId : ingredient.id,
     }));
 
     console.log(ingredients);

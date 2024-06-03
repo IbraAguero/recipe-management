@@ -2,6 +2,8 @@ import { getIngredients } from "@/lib/actions/ingredients";
 import FormRecipe from "../../ui/form-recipe";
 import { getRecipe } from "@/lib/actions/recipes";
 
+export const dynamic = "force-dynamic";
+
 const EditPage = async ({ params }) => {
   const ingredients = await getIngredients();
   const recipe = await getRecipe(params.id);

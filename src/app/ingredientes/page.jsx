@@ -4,6 +4,8 @@ import Link from "next/link";
 import SkeletonTable from "./ui/table/skeleton-table";
 import { Suspense } from "react";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   return (
     <>

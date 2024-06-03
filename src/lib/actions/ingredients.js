@@ -44,6 +44,7 @@ export async function addIngredient(prevState, FormData) {
       message: "Se agrego correctamente el ingrediente",
     };
   } catch (error) {
+    console.log(error.message);
     if (error instanceof ZodError) {
       return {
         status: "error",

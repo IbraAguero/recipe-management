@@ -77,7 +77,6 @@ export async function addRecipe(prevState, FormData) {
 }
 
 export async function editRecipe(prevState, FormData) {
-  console.log(FormData);
   try {
     const id = FormData.get("id");
     const title = FormData.get("title");
@@ -90,8 +89,6 @@ export async function editRecipe(prevState, FormData) {
       quantity: Number(ingredient.quantity),
       id: ingredient.ingredientId ? ingredient.ingredientId : ingredient.id,
     }));
-
-    console.log(ingredients);
 
     const steps = stepsString
       ? stepsString.split(",").map((step) => step.trim())

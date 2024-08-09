@@ -27,7 +27,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getPrice } from "@/lib/utils";
+import { getPrice, parseMeasure } from "@/lib/utils";
 import { Settings } from "lucide-react";
 import DeleteRecipeAlertDialog from "./delete-recipe-alert-dialog";
 import { useState } from "react";
@@ -88,7 +88,7 @@ const AcordionItemRecipe = ({ recipe, total }) => {
                       {ingredient.name}
                     </TableCell>
                     <TableCell>{ingredient.quantity}</TableCell>
-                    <TableCell>{ingredient.measure}</TableCell>
+                    <TableCell>{parseMeasure(ingredient.measure)}</TableCell>
                     <TableCell>${getPrice(ingredient)}</TableCell>
                   </TableRow>
                 ))}

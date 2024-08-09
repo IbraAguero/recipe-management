@@ -5,7 +5,6 @@ export const dynamic = "force-dynamic";
 
 const RecipeAddPage = async () => {
   const ingredients = await getIngredients();
-  console.log(ingredients);
 
   return (
     <section className="flex flex-col">

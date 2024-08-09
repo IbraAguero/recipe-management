@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   return (
     <>
-      <section className="mt-12 flex flex-col items-center justify-center px-2 sm:px-6 md:px-12 lg:px-24">
+      <section className="mt-12 flex flex-col items-center justify-center px-2 pb-10 sm:px-6 md:px-12 lg:px-24">
         <div className="mb-5 flex w-full justify-between px-4">
           <h1 className="text-2xl font-bold tracking-tighter">Ingredientes</h1>
           <Link href={"/ingredientes/agregar"} className={buttonVariants()}>

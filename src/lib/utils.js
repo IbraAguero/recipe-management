@@ -21,3 +21,33 @@ export function getPrice(ingredient) {
   const price = (quantityInGrams / conversions["gramos"]) * pricePerUnit;
   return price.toFixed(2);
 }
+
+export function parseMeasure(measure) {
+  let parseMeasure;
+
+  switch (measure) {
+    case "media_taza":
+      parseMeasure = "Media Taza";
+      break;
+    case "taza":
+      parseMeasure = "Taza";
+      break;
+    case "unidades":
+      parseMeasure = "Unidades";
+      break;
+    case "gramos":
+      parseMeasure = "Gramos";
+      break;
+    case "mililitros":
+      parseMeasure = "Mililitros";
+      break;
+    case "cucharada":
+      parseMeasure = "Cucharada";
+      break;
+    case "cucharadita":
+      parseMeasure = "Cucharadita";
+      break;
+  }
+
+  return parseMeasure;
+}

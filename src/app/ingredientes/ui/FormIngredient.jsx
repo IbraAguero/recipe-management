@@ -31,8 +31,10 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-const FormIngredient = ({ ingredient }) => {
-  const functionAction = ingredient ? editIngredient : addIngredient;
+const FormIngredient = ({ ingredient, closeDialog }) => {
+  const isEditing = !!ingredient?.id;
+
+  const functionAction = isEditing ? editIngredient : addIngredient;
   const [state, formAction] = useFormState(functionAction, null);
   const router = useRouter();
 
@@ -62,7 +64,7 @@ const FormIngredient = ({ ingredient }) => {
     }
     if (state.status === "success") {
       toast.success(state.message);
-      router.back();
+      closeDialog();
     }
   }, [state, setError, router]);
 
@@ -179,10 +181,6 @@ const FormIngredient = ({ ingredient }) => {
   );
 };
 export default FormIngredient;
-
-const FormContent = ({ form, isEditing }) => {
-  return <></>;
-};
 
 function ButtonSubmit({ ingredient }) {
   const { pending } = useFormStatus();

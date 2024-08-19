@@ -103,12 +103,12 @@ const AcordionItemRecipe = ({ recipe, total }) => {
               <div className="text-md flex gap-2 font-medium">
                 <div className="rounded-sm bg-zinc-900 p-2">
                   Costo Total:
-                  <span> ${total}</span>
+                  <span> ${total.toFixed(2)}</span>
                 </div>
                 {recipe.units !== 1 && (
                   <div className="rounded-sm bg-zinc-900 p-2">
                     Costo / Unidad:
-                    <span> ${parseInt(total / recipe.units)}</span>
+                    <span> ${parseInt(total / recipe.units).toFixed(2)}</span>
                   </div>
                 )}
               </div>

@@ -3,21 +3,38 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
 import FormIngredient from "./FormIngredient";
 
-const ModalFormIngredient = ({ ingredient, isSrr }) => {
+const ModalFormIngredient = ({
+  ingredient,
+  isSrr,
+  isDialog,
+  open,
+  handleClose,
+}) => {
   const router = useRouter();
 
-  const handleClose = () => {
-    if (isSrr) {
-      router.push("/ingredientes");
+  const handleDialogClose = () => {
+    if (isDialog) {
+      handleClose();
     } else {
-      router.back();
+      if (isSrr) {
+        router.push("/ingredientes");
+      } else {
+        router.back();
+      }
     }
   };
 
   return (
-    <Dialog defaultOpen={true} onOpenChange={handleClose}>
+    <Dialog
+      open={open}
+      defaultOpen={!isDialog}
+      onOpenChange={handleDialogClose}
+    >
       <DialogContent className="p-8 sm:max-w-[425px]">
-        <FormIngredient ingredient={ingredient} />
+        <FormIngredient
+          ingredient={ingredient}
+          closeDialog={handleDialogClose}
+        />
       </DialogContent>
     </Dialog>
   );

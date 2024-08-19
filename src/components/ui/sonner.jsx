@@ -11,6 +11,7 @@ const Toaster = ({ ...props }) => {
       theme={theme}
       className="toaster group"
       toastOptions={{
+        duration: 2500,
         classNames: {
           success: "bg-green-400 text-green-400",
           toast:

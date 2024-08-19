@@ -27,6 +27,7 @@ import { formSchema } from "@/schemas/RecipeSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { ComboboxIngredient } from "@/components/combobox-ingredient";
 
 const measures = {
   mililitros: "Mililitros",
@@ -152,7 +153,6 @@ const FormRecipe = ({ ingredients, recipe }) => {
       return;
     }
     if (state.status === "error") {
-      console.log(state);
       state.errors?.forEach((error) => {
         setError(error.path, {
           message: error.message,
@@ -239,26 +239,13 @@ const FormRecipe = ({ ingredients, recipe }) => {
               <FormField
                 control={form.control}
                 name="ingredientsSelect"
-                render={({ field }) => (
+                render={() => (
                   <FormItem>
                     <FormControl>
-                      <Select
+                      <ComboboxIngredient
                         name="ingredientsSelect"
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        value={field.value}
-                      >
-                        <SelectTrigger className="w-full bg-zinc-900">
-                          <SelectValue placeholder="Selecciona un ingrediente" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {ingredients?.map((el) => (
-                            <SelectItem value={el.id} key={el.id}>
-                              {el.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                        ingredients={ingredients}
+                      />
                     </FormControl>
                   </FormItem>
                 )}

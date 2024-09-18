@@ -1,17 +1,14 @@
-import TitleActionRecipe from "./ui/title-action-recipe";
-import AccordionContentRecipe from "./ui/accordion-content-recipe";
-import { Suspense } from "react";
-import SkeletonRecipe from "./ui/skeleton-recipe";
+import { getRecipes } from "@/lib/actions/recipes";
+import RecipesClient from "./ui/recipes-client";
 
 export const dynamic = "force-dynamic";
 
 const RecipesPage = async () => {
+  const recipes = await getRecipes();
+
   return (
     <section className="mt-12 px-2 sm:px-24">
-      <TitleActionRecipe />
-      <Suspense fallback={<SkeletonRecipe />}>
-        <AccordionContentRecipe />
-      </Suspense>
+      <RecipesClient recipes={recipes} />
     </section>
   );
 };

@@ -11,7 +11,7 @@ export const columns = [
     ),
     cell: ({ row }) => {
       return (
-        <div className="ml-2 w-32 font-medium">{row.getValue("name")}</div>
+        <div className="ml-2 w-32 text-center">{row.getValue("name")}</div>
       );
     },
     enableSorting: true,
